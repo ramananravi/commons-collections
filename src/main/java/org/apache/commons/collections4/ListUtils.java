@@ -24,6 +24,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.bag.HashBag;
 import org.apache.commons.collections4.functors.DefaultEquator;
@@ -493,6 +494,41 @@ public class ListUtils {
             throw new IllegalArgumentException("Size must be greater than 0");
         }
         return new Partition<>(list, size);
+    }
+    
+    /**
+     * Returns consecutive {@link List#subList(int, int) sublists} of a
+     * list, without considering null elements, each of the same size 
+     * (the final list may be smaller). For example,partitioning a list containing 
+     * {@code [a, b, null, c, d, e]} with a partition size of 3 yields 
+     * {@code [[a, b, c], [d, e]]} -- an outer list containing two inner lists of 
+     * three and two elements, all in the original order.
+     * <p>
+     * The outer list is unmodifiable, but reflects the latest state of the
+     * source list. The inner lists are sublist views of the original list,
+     * produced on demand using {@link List#subList(int, int)}, and are subject
+     * to all the usual caveats about modification as explained in that API.
+     * <p>
+     * Adapted from http://code.google.com/p/guava-libraries/
+     *
+     * @param <T> the element type
+     * @param list  the list to return consecutive sublists of
+     * @param size  the desired size of each sublist (the last may be smaller)
+     * @return a list of consecutive sublists with non-null elements
+     * @throws NullPointerException if list is null
+     * @throws IllegalArgumentException if size is not strictly positive
+     * @since 4.0
+     */
+    public static <T> List<List<T>> partitionIgnoreNull(final List<T> list, final int size) {
+        Objects.requireNonNull(list, "list");
+        if (size <= 0) {
+            throw new IllegalArgumentException("Size must be greater than 0");
+        }
+        List<T> nonNullList = list.stream().filter(Objects::nonNull).collect(Collectors.toList());
+        if (nonNullList.size() == 0) {
+            throw new IllegalArgumentException("No non-null elements in input list");
+        }
+        return new Partition<>(nonNullList, size);
     }
 
     /**

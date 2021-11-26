@@ -24,6 +24,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.functors.EqualPredicate;
 import org.apache.commons.collections4.list.PredicatedList;
@@ -355,6 +357,41 @@ public class ListUtilsTest {
         assertEquals(1, partitionMax.size());
         assertEquals(strings.size(), partitionMax.get(0).size());
         assertEquals(strings, partitionMax.get(0));
+    }
+    
+    @Test
+    public void testPartitionIgnoreNull() {
+        final List<Integer> inputList = new ArrayList<>();
+        for (int i = 0; i <= 6; i++) {
+            inputList.add(i);
+            inputList.add(null);
+        }
+
+        final List<List<Integer>> partition = ListUtils.partitionIgnoreNull(inputList, 3);
+
+        assertNotNull(partition);
+        assertEquals(3, partition.size());
+        assertEquals(1, partition.get(2).size());
+
+        try {
+            ListUtils.partitionIgnoreNull(null, 3);
+            fail("failed to check for null argument");
+        } catch (final NullPointerException e) {}
+
+        try {
+            ListUtils.partitionIgnoreNull(inputList, 0);
+            fail("failed to check for size argument");
+        } catch (final IllegalArgumentException e) {}
+
+        try {
+            ListUtils.partitionIgnoreNull(inputList, -10);
+            fail("failed to check for size argument");
+        } catch (final IllegalArgumentException e) {}
+
+        final List<List<Integer>> partitionMax = ListUtils.partitionIgnoreNull(inputList, Integer.MAX_VALUE);
+        assertEquals(1, partitionMax.size());
+        assertEquals(7, partitionMax.get(0).size());
+        assertEquals(inputList.stream().filter(Objects::nonNull).collect(Collectors.toList()), partitionMax.get(0));
     }
 
     @Test
