@@ -30,6 +30,7 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.bag.HashBag;
 import org.apache.commons.collections4.collection.PredicatedCollection;
@@ -2239,4 +2240,21 @@ public class CollectionUtils {
         }
     	return null;
     	}
+    
+    /**
+     * Returns a new collection by removing all null elements from the given collection.
+     *
+     * @param <E> the element type
+     * @param collection  the input collection, must not be null and must not be empty
+     * @return a new collection by removing all null elements from the given collection
+     * @throws NullPointerException if the input collection is null
+     * @throws IllegalArgumentException if the input collection is empty
+     */
+    public static <E> Collection<E> removeNullElements(final Collection<E> collection) {
+    	Objects.requireNonNull(collection, "input collection must not be null");
+        if (collection.size() == 0) {
+            throw new IllegalArgumentException("input collection must not be empty");
+        }
+        return collection.stream().filter(Objects::nonNull).collect(Collectors.toList());
+    }
 }
