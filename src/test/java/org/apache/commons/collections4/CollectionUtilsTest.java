@@ -2345,5 +2345,23 @@ public class CollectionUtilsTest extends MockTestCase {
         assertEquals(Integer.valueOf(4), freq2.get(4));
         assertEquals(Integer.valueOf(1), freq2.get(5));
     }
+    
+    @Test
+    public void testSplit() throws InstantiationException, IllegalAccessException {
+        final Set<Number> set = new HashSet<>();
+        set.add(1L);
+        set.add(2L);
+        set.add(3L);
+       //Collection<Collection<Number>> s = CollectionUtils.split(set, 3);
+        //assertEquals(1, set.size());
+       // assertEquals(1, s.size());
+        List l = new ArrayList<>();
+        l.add(1);
+        l.add(2);
+        l.add(3);
+        l.add(4);
+        List<List<Object>> list = ListUtils.partition(l, 2);
+        System.out.println(list.size());
+    }
 
 }

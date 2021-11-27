@@ -2155,4 +2155,88 @@ public class CollectionUtils {
         }
         return collection.iterator().next();
     }
+    
+    /**
+     * TODO add javadocs!!
+     *
+     * @param <E> collection type
+     * @param collection to read
+     * @return sole member of collection
+     * @throws IllegalAccessException 
+     * @throws InstantiationException 
+     * @throws NullPointerException if collection is null
+     * @throws IllegalArgumentException if collection is empty or contains more than one element
+     * @since 4.0
+     */
+    public static <E> Collection<List<E>> split(final Collection<E> collection, int subCollectionSize) throws InstantiationException, IllegalAccessException {
+    	Objects.requireNonNull(collection, "collection");
+        if (collection.size() == 0) {
+            throw new IllegalArgumentException("collection is empty");
+        }
+        
+        Collection<List<E>> result = new ArrayList<>();
+        Collection retCollection = collection.getClass().newInstance();
+        if(collection.size() <= subCollectionSize) {
+        	retCollection.add(collection);
+        	return retCollection;
+        }
+    	return null;
+    	}
+    
+    public static <E> Collection<Collection<E>> splitIgnoresNull(final Collection<E> collection, int subCollectionSize) throws InstantiationException, IllegalAccessException {
+    	Objects.requireNonNull(collection, "collection");
+        if (collection.size() == 0) {
+            throw new IllegalArgumentException("collection is empty");
+        }
+        
+        Collection<List<E>> result = new ArrayList<>();
+        Collection retCollection = collection.getClass().newInstance();
+        if(collection.size() <= subCollectionSize) {
+        	retCollection.add(collection);
+        	return retCollection;
+        }
+    	return null;
+    	}
+    
+    /**
+     * TODO add javadocs!!
+     *
+     * @param <E> collection type
+     * @param collection to read
+     * @return sole member of collection
+     * @throws IllegalAccessException 
+     * @throws InstantiationException 
+     * @throws NullPointerException if collection is null
+     * @throws IllegalArgumentException if collection is empty or contains more than one element
+     * @since 4.0
+     */
+    public static <E> Collection<Collection<E>> split1(final Collection<E> collection, int noOfSubLists) throws InstantiationException, IllegalAccessException {
+    	Objects.requireNonNull(collection, "collection");
+        if (collection.size() == 0) {
+            throw new IllegalArgumentException("collection is empty");
+        }
+        
+        Collection<List<E>> result = new ArrayList<>();
+        Collection retCollection = collection.getClass().newInstance();
+        if(collection.size() <= noOfSubLists) {
+        	retCollection.add(collection);
+        	return retCollection;
+        }
+    	return null;
+    	}
+    
+    public static <E> Collection<Collection<E>> split1IgnoresNull(final Collection<E> collection, int noOfSubLists) throws InstantiationException, IllegalAccessException {
+    	Objects.requireNonNull(collection, "collection");
+        if (collection.size() == 0) {
+            throw new IllegalArgumentException("collection is empty");
+        }
+        
+        Collection<List<E>> result = new ArrayList<>();
+        Collection retCollection = collection.getClass().newInstance();
+        if(collection.size() <= noOfSubLists) {
+        	retCollection.add(collection);
+        	return retCollection;
+        }
+    	return null;
+    	}
 }
